@@ -40,10 +40,14 @@ Este repositorio esta preparado para que cada alumno:
 - Validar con checklist.
 - Entregar evidencia minima (captura/log/comando).
 
-## Proximos pasos (setup del repo remoto)
+## GitHub y Codespaces
 
-Cuando confirmes esta estructura base, el siguiente paso sera:
+Repositorio oficial del curso:
 
-1. Inicializar git en esta carpeta (si aplica).
-2. Crear repo en GitHub con `gh` en tu cuenta `davidpestana`.
-3. Subir rama principal y dejar instrucciones de fork + Codespaces.
+- https://github.com/davidpestana/docker-kubernetes-inicial-bellvitge
+
+Flujo recomendado para alumnos:
+
+1. Entrar al repo y pulsar `Fork`.
+2. Abrir el fork y pulsar `Code` -> `Codespaces` -> `Create codespace on main`.
+3. Ejecutar `labs/00-prework` para validar el entorno del curso.
