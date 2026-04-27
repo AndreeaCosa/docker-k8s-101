@@ -2,14 +2,9 @@
   "name": "docker-k8s-101",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
-      "kubectl": "latest",
-      "helm": "latest",
-      "minikube": "latest"
-    }
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "postCreateCommand": "echo 'Entorno listo para labs de Docker y Kubernetes'",
+  "postCreateCommand": "echo 'Entorno base listo. Instala kubectl, kind y helm en el Lab 00.'",
   "customizations": {
     "vscode": {
       "extensions": [

@@ -4,6 +4,11 @@
 
 Ejecutar procesos batch con Job y CronJob, con configuracion externa.
 
+## Prerrequisitos
+
+- Haber completado `labs/00-prework`.
+- Tener cluster `kind` activo y accesible por `kubectl`.
+
 ## Pasos guiados
 
 1. Crear y ejecutar un Job ETL.

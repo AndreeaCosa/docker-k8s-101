@@ -51,3 +51,5 @@ Flujo recomendado para alumnos:
 1. Entrar al repo y pulsar `Fork`.
 2. Abrir el fork y pulsar `Code` -> `Codespaces` -> `Create codespace on main`.
 3. Ejecutar `labs/00-prework` para validar el entorno del curso.
+
+Nota: `kubectl`, `kind` y `helm` se instalan durante el prework para reforzar aprendizaje practico.

@@ -4,6 +4,16 @@
 
 Desplegar una aplicacion en Kubernetes y exponerla por servicio interno.
 
+## Prerrequisitos
+
+- Haber completado `labs/00-prework`.
+- Tener cluster `kind` activo:
+
+```bash
+kind get clusters
+kubectl get nodes
+```
+
 ## Pasos guiados
 
 1. Aplicar `deployment.base.yaml`.
