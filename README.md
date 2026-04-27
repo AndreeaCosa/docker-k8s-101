@@ -1,5 +1,7 @@
 # Docker + Kubernetes 101
 
+[![Comenzar](https://img.shields.io/badge/Comenzar-Curso-success?style=for-the-badge)](labs/00-prework/README.md)
+
 ## Descripcion del curso
 
 Curso introductorio para aprender a trabajar con contenedores y orquestacion de forma aplicada. El recorrido va desde los fundamentos de Docker hasta el despliegue y automatizacion de cargas en Kubernetes, terminando con un proyecto final integrador.
