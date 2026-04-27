@@ -9,7 +9,7 @@ Alineado a la introduccion del curso y al inicio del **Modulo 1**: primero ideas
 
 ---
 
-## Parte A - Fundamentos (sin comandos, ~2h con tu explicacion)
+## Parte A - Fundamentos
 
 ### A.1 Que es un contenedor (y que no es)
 
