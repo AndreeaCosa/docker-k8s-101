@@ -1,8 +1,13 @@
-# Lab 03 - Kubernetes Basico
+# Capitulo 4/6 - Kubernetes Basico
 
 ## Objetivo
 
 Desplegar una aplicacion en Kubernetes y exponerla por servicio interno.
+
+## Navegacion rapida
+
+- [Anterior: Capitulo 3 - Docker para Analitica](../02-docker-analitica/README.md)
+- [Siguiente: Capitulo 5 - Kubernetes para Analitica](../04-k8s-analitica/README.md)
 
 ## Prerrequisitos
 
@@ -20,3 +25,8 @@ kubectl get nodes
 2. Aplicar `service.base.yaml`.
 3. Verificar pods y replicas.
 4. Escalar deployment y validar.
+
+## Navegacion
+
+- [Anterior: Capitulo 3 - Docker para Analitica](../02-docker-analitica/README.md)
+- [Siguiente: Capitulo 5 - Kubernetes para Analitica](../04-k8s-analitica/README.md)

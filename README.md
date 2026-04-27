@@ -53,3 +53,10 @@ Flujo recomendado para alumnos:
 3. Ejecutar `labs/00-prework` para validar el entorno del curso.
 
 Nota: `kubectl`, `kind` y `helm` se instalan durante el prework para reforzar aprendizaje practico.
+
+## Empezar ahora (flujo guiado)
+
+Pulsa aqui para comenzar directamente:
+
+- [Abrir libro de practicas](labs/README.md)
+- [Siguiente: Capitulo 1 - Prework](labs/00-prework/README.md)

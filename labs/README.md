@@ -1,4 +1,15 @@
-# Labs del curso
+# Docker + Kubernetes 101 - Libro de practicas
+
+Lee este curso como un libro: abre el capitulo 1 y avanza siempre con el enlace `Siguiente`.
+
+## Indice lineal (paginas)
+
+1. [Capitulo 1 - Prework del entorno](00-prework/README.md)
+2. [Capitulo 2 - Docker basico](01-docker-basico/README.md)
+3. [Capitulo 3 - Docker para analitica](02-docker-analitica/README.md)
+4. [Capitulo 4 - Kubernetes basico](03-k8s-basico/README.md)
+5. [Capitulo 5 - Kubernetes para analitica](04-k8s-analitica/README.md)
+6. [Capitulo 6 - Proyecto final guiado](05-proyecto-final/README.md)
 
 Cada lab incluye:
 
@@ -15,3 +26,7 @@ Cada lab incluye:
 4. 03-k8s-basico
 5. 04-k8s-analitica
 6. 05-proyecto-final
+
+## Comenzar
+
+- [Siguiente: Capitulo 1 - Prework](00-prework/README.md)

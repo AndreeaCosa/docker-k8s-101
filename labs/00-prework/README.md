@@ -1,8 +1,13 @@
-# Lab 00 - Prework
+# Capitulo 1/6 - Prework
 
 ## Objetivo
 
 Dejar el entorno del Codespace listo para trabajar con Docker y Kubernetes, instalando herramientas de forma guiada para entender que hace cada una.
+
+## Navegacion rapida
+
+- [Indice del libro](../README.md)
+- [Siguiente: Capitulo 2 - Docker Basico](../01-docker-basico/README.md)
 
 ## Pasos guiados
 
@@ -114,3 +119,8 @@ Checklist final:
 - [ ] Test de despliegue realizado y eliminado.
 
 Si todo esta en verde, pasa a `labs/01-docker-basico`.
+
+## Navegacion
+
+- [Indice de labs](../README.md)
+- [Siguiente: Capitulo 2 - Docker Basico](../01-docker-basico/README.md)

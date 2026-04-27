@@ -1,8 +1,13 @@
-# Lab 01 - Docker Basico
+# Capitulo 2/6 - Docker Basico
 
 ## Objetivo
 
 Entender imagenes, contenedores, volumenes y red en un caso simple.
+
+## Navegacion rapida
+
+- [Anterior: Capitulo 1 - Prework](../00-prework/README.md)
+- [Siguiente: Capitulo 3 - Docker para Analitica](../02-docker-analitica/README.md)
 
 ## Pasos guiados
 
@@ -14,3 +19,8 @@ Entender imagenes, contenedores, volumenes y red en un caso simple.
 ## Entregable minimo
 
 Captura o salida de comandos de build, run y persistencia.
+
+## Navegacion
+
+- [Anterior: Capitulo 1 - Prework](../00-prework/README.md)
+- [Siguiente: Capitulo 3 - Docker para Analitica](../02-docker-analitica/README.md)
