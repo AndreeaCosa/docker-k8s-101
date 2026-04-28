@@ -1,14 +1,50 @@
 # Step 01 - Esqueleto final
 
-Crear estructura base en `labs/05-proyecto-final/trabajo/proyecto-final/`.
+## Objetivo del step
+
+Preparar la estructura final del proyecto para integrar API, ETL, Compose y Kubernetes en una entrega única.
+
+## Ejecución guiada
+
+### 1) Crear estructura principal
 
 ```bash
 mkdir -p labs/05-proyecto-final/trabajo/proyecto-final/{api,etl,k8s/base,k8s/overlays/local}
 ```
 
-## Siguiente
+### 2) Crear archivos mínimos de entrada
 
-- [02-despliegue-final.md](02-despliegue-final.md)
+```bash
+touch labs/05-proyecto-final/trabajo/proyecto-final/docker-compose.yml
+touch labs/05-proyecto-final/trabajo/proyecto-final/README.md
+```
+
+### 3) Verificar árbol de trabajo
+
+```bash
+ls -R labs/05-proyecto-final/trabajo/proyecto-final
+```
+
+## Qué validas y qué debes ver
+
+- Carpetas `api`, `etl`, `k8s/base`, `k8s/overlays/local` creadas.
+- Archivos base presentes para comenzar integración.
+
+## Errores comunes
+
+- Crear rutas fuera de `trabajo/proyecto-final`.
+- Olvidar carpeta `overlays/local`.
+
+## Reto
+
+Añade carpeta `k8s/overlays/batch` para separar configuración de procesos batch.
+
+## Solución del reto
+
+```bash
+mkdir -p labs/05-proyecto-final/trabajo/proyecto-final/k8s/overlays/batch
+```
+
 ## Navegacion del libro
 
 - [Anterior](../03-criterios-de-entrega.md)
