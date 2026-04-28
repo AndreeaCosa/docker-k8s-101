@@ -25,6 +25,12 @@ mkdir -p labs/02-docker-analitica/trabajo/stack-analitica/api/app
 mkdir -p labs/02-docker-analitica/trabajo/stack-analitica/etl
 ```
 
+**Por que este paso es importante**
+
+- Separas responsabilidades desde el inicio: `api` (servicio online) y `etl` (proceso batch).
+- Evitas mezclar código con configuración y reduces errores de rutas al construir imágenes.
+- Preparas una estructura que escala: luego podrás añadir tests, scripts o nuevos servicios sin romper orden.
+
 ### 2) Crear archivo de variables de entorno
 
 Crea `labs/02-docker-analitica/trabajo/stack-analitica/.env`:
@@ -35,6 +41,12 @@ POSTGRES_PASSWORD=analytics
 POSTGRES_DB=analytics
 DATABASE_URL=postgresql+psycopg://analytics:analytics@db:5432/analytics
 ```
+
+**Por que este paso es importante**
+
+- Centralizas configuración para no hardcodear credenciales en el código.
+- Permites cambiar entorno (local, staging, demo) tocando solo `.env`.
+- El host `db` en `DATABASE_URL` es el nombre del servicio Docker Compose, no `localhost`; esto enseña cómo se resuelven servicios dentro de la red de Compose.
 
 ### 3) Crear esqueleto de archivos de servicios
 
@@ -47,6 +59,12 @@ touch labs/02-docker-analitica/trabajo/stack-analitica/etl/requirements.txt
 touch labs/02-docker-analitica/trabajo/stack-analitica/etl/etl.py
 touch labs/02-docker-analitica/trabajo/stack-analitica/docker-compose.yml
 ```
+
+**Por que este paso es importante**
+
+- Defines el contrato técnico del stack antes de implementar: ya sabes qué piezas existen y cómo se conectan.
+- Permite trabajar por iteraciones pequeñas: primero estructura, después contenido y validación.
+- Facilita revisar el proyecto con otros (compañero o profesor) porque la arquitectura queda visible desde el árbol de archivos.
 
 ## Qué validas y qué debes ver
 
