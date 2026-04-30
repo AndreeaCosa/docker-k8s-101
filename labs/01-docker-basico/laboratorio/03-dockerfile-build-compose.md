@@ -1,37 +1,38 @@
-# Step 03 - Entorno dev con build context, volumen, puerto y auto-refresh
+# Step 03 - Entorno dev con Docker Compose (build context, volumen, puerto y auto-refresh)
 
 ## Objetivo del step
 
-Montar un entorno de desarrollo contenerizado donde puedas cambiar código en local y ver el cambio reflejado en el servicio sin reconstruir imagen en cada edición.
+Montar un entorno de desarrollo con `docker compose` donde puedas modificar código local y ver el cambio reflejado sin reconstruir manualmente en cada edición.
 
 ## Fundamento del step
 
-Este step conecta cuatro conceptos clave de Docker en un caso real:
+Este step integra los conceptos clave de trabajo diario con Compose:
 
-- **Build context**: define qué archivos ve Docker durante el build.
-- **Volumen (bind mount)**: comparte código del host dentro del contenedor.
-- **Puerto publicado**: hace accesible el servicio desde el navegador/cliente.
-- **Auto-refresh**: acelera desarrollo al recargar el servicio al guardar archivos.
+- `build.context`: define qué carpeta usa Docker para construir la imagen.
+- `build.dockerfile`: permite controlar qué Dockerfile usa el servicio.
+- `volumes` (bind mount): comparte código local dentro del contenedor.
+- `ports`: publica el servicio para consumirlo desde host/Codespace.
+- modo debug/reload: el proceso recarga al detectar cambios de código.
 
 ## Descripcion del laboratorio
 
-Vas a crear una mini API en Python (Flask), construir su imagen y ejecutarla en modo desarrollo con recarga automática usando un bind mount del código.
+Vas a crear una mini API Flask y ejecutarla con `docker compose`. El servicio se construye con `build: context`, expone puerto y monta el código para auto-refresh.
 
 ## Ejecución guiada
 
-### 1) Crear estructura de proyecto de desarrollo
+### 1) Crear estructura del proyecto
 
 ```bash
-mkdir -p labs/01-docker-basico/trabajo/dev-live/app
+mkdir -p labs/01-docker-basico/trabajo/dev-live-compose/app
 ```
 
-Crea `labs/01-docker-basico/trabajo/dev-live/requirements.txt`:
+Crea `labs/01-docker-basico/trabajo/dev-live-compose/requirements.txt`:
 
 ```text
 flask==3.0.3
 ```
 
-Crea `labs/01-docker-basico/trabajo/dev-live/app/main.py`:
+Crea `labs/01-docker-basico/trabajo/dev-live-compose/app/main.py`:
 
 ```python
 from flask import Flask, jsonify
@@ -44,59 +45,57 @@ def health():
 
 @app.get("/message")
 def message():
-    return jsonify({"message": "Hola desde Docker dev-live"})
+    return jsonify({"message": "Hola desde dev-live-compose"})
 ```
 
-### 2) Crear Dockerfile (con foco en build context)
+### 2) Crear Dockerfile
 
-Crea `labs/01-docker-basico/trabajo/dev-live/Dockerfile`:
+Crea `labs/01-docker-basico/trabajo/dev-live-compose/Dockerfile`:
 
 ```dockerfile
 FROM python:3.11-slim
-
 WORKDIR /app
-
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
 COPY app ./app
-
 ENV FLASK_APP=app/main.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=8000
-
 CMD ["flask", "run", "--debug"]
 ```
 
-### 3) Build usando el contexto correcto
+### 3) Crear `docker-compose.yml` con build context
 
-```bash
-cd labs/01-docker-basico/trabajo/dev-live
-docker build -t dev-live-api:1.0 .
+Crea `labs/01-docker-basico/trabajo/dev-live-compose/docker-compose.yml`:
+
+```yaml
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8010:8000"
+    volumes:
+      - ./app:/app/app
+    environment:
+      - FLASK_ENV=development
 ```
 
-Qué aprender aquí:
+Por qué este diseño:
 
-- El `.` final es el **build context**.
-- Si haces build desde otra carpeta, `COPY app ./app` puede fallar o copiar archivos incorrectos.
+- `context: .` permite usar `requirements.txt`, `Dockerfile` y `app/` del proyecto.
+- `volumes: ./app:/app/app` evita rebuild para cambios de código.
+- `ports` publica la API en `localhost:8010`.
 
-### 4) Ejecutar contenedor con puerto y volumen
+### 4) Levantar con Compose
 
 ```bash
-docker run --rm -it \
-  --name dev-live-api \
-  -p 8010:8000 \
-  -v "$PWD/app:/app/app" \
-  dev-live-api:1.0
+cd labs/01-docker-basico/trabajo/dev-live-compose
+docker compose up --build
 ```
 
-Qué significa:
-
-- `-p 8010:8000`: expone el puerto 8000 del contenedor en 8010 del host.
-- `-v "$PWD/app:/app/app"`: código local montado dentro del contenedor.
-- `--debug` en Flask activa recarga automática al detectar cambios.
-
-### 5) Validar servicio en ejecución
+### 5) Validar servicio
 
 En otra terminal:
 
@@ -105,23 +104,21 @@ curl -sS http://localhost:8010/health
 curl -sS http://localhost:8010/message
 ```
 
-Debes ver JSON válido con estado `ok`.
+### 6) Probar auto-refresh
 
-### 6) Probar auto-refresh modificando código
-
-Sin detener el contenedor, edita `app/main.py` y cambia:
+Sin detener `docker compose up`, modifica en `app/main.py`:
 
 ```python
-return jsonify({"message": "Hola desde Docker dev-live"})
+return jsonify({"message": "Hola desde dev-live-compose"})
 ```
 
 por:
 
 ```python
-return jsonify({"message": "Mensaje actualizado en caliente"})
+return jsonify({"message": "Mensaje actualizado con compose"})
 ```
 
-Vuelve a probar:
+Valida de nuevo:
 
 ```bash
 curl -sS http://localhost:8010/message
@@ -129,20 +126,20 @@ curl -sS http://localhost:8010/message
 
 ## Qué validas y qué debes ver
 
-- Build exitoso con tag `dev-live-api:1.0`.
-- Servicio accesible en `http://localhost:8010`.
-- El cambio de código se refleja sin rebuild manual de imagen.
-- En logs, Flask muestra recarga del proceso al guardar.
+- Compose construye imagen desde `build.context` sin errores.
+- Servicio `api` queda en estado `running`.
+- Endpoint responde por puerto `8010`.
+- Al guardar cambios en `app/main.py`, la respuesta cambia sin rebuild manual.
 
 ## Errores comunes
 
-- Puerto ocupado: cambia `8010` por `8020` en `-p`.
-- Volumen mal montado: revisar ruta absoluta de `$PWD/app`.
-- Cambiaste archivo fuera de `app/`: no se refleja en el contenedor.
+- `build context` incorrecto: `COPY` falla en Dockerfile.
+- ruta de volumen errónea: cambios locales no impactan en contenedor.
+- puerto ocupado: cambiar `8010:8000` por otro puerto host.
 
 ## Reto
 
-Añade endpoint `GET /time` que devuelva hora UTC y confirma que se publica en caliente sin reiniciar contenedor.
+Añade endpoint `GET /time` que devuelva hora UTC y verifica que aparece sin reiniciar Compose.
 
 ## Solucion del reto
 
