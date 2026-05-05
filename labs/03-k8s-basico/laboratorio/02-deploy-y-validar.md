@@ -1,80 +1,78 @@
-# Step 02 - Apply y validacion del despliegue
+# Step 02 - Viewing Pods and Nodes (troubleshooting basico)
 
 ## Objetivo del step
 
-Aplicar los manifiestos y comprobar que `Deployment` y `Service` funcionan como en el tutorial oficial, pero con flujo declarativo.
+Seguir el flujo del segundo lab oficial para inspeccionar la app desplegada:
+
+- revisar Pods y Node
+- usar `describe`, `logs`, `exec`
+- acceder via `kubectl proxy`
 
 ## Fundamento del step
 
-El valor de este step es aprender a validar cada capa:
-
-1. Kubernetes acepta los recursos.
-2. El Deployment crea replicas sanas.
-3. El Service enruta trafico a esos Pods.
+Antes de exponer servicios, hay que dominar diagnostico basico del workload.
 
 ## Ejecución guiada
 
-### 1) Aplicar manifiestos
+### 1) Ver Pods del namespace
 
 ```bash
-kubectl apply -f labs/03-k8s-basico/trabajo/k8s/manifests/
+kubectl -n k8s-basics get pods
 ```
 
-### 2) Ver estado de recursos
+### 2) Inspeccionar detalle del Pod
 
 ```bash
-kubectl -n k8s-basics get deployments,pods,services
-kubectl -n k8s-basics rollout status deployment/kubernetes-bootcamp
+kubectl -n k8s-basics describe pods
 ```
 
-### 3) Validar Service y endpoints
+### 3) Ver logs del contenedor
 
 ```bash
-kubectl -n k8s-basics get svc kubernetes-bootcamp
-kubectl -n k8s-basics get endpoints kubernetes-bootcamp
+kubectl -n k8s-basics logs -l app=kubernetes-bootcamp
 ```
 
-### 4) Probar la app desde local con port-forward
+### 4) Levantar proxy de API (terminal 1)
 
 ```bash
-kubectl -n k8s-basics port-forward service/kubernetes-bootcamp 8080:8080
+kubectl proxy
 ```
 
-En otra terminal:
+### 5) Consultar app via proxy (terminal 2)
 
 ```bash
-curl -sS http://127.0.0.1:8080/
+POD_NAME="$(kubectl -n k8s-basics get pods -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' | head -n 1)"
+echo "POD_NAME=$POD_NAME"
+curl "http://localhost:8001/api/v1/namespaces/k8s-basics/pods/${POD_NAME}:8080/proxy/"
+```
+
+### 6) Ejecutar comando dentro del Pod
+
+```bash
+kubectl -n k8s-basics exec "$POD_NAME" -- env
 ```
 
 ## Qué validas y qué debes ver
 
-- `rollout status` finaliza correctamente.
-- `endpoints` muestra IPs de Pods asociados.
-- `curl` devuelve respuesta de la app (texto del bootcamp).
+- `describe` muestra imagen y eventos de scheduling.
+- `logs` devuelve salida de la app.
+- `curl` por proxy responde correctamente.
 
 ## Errores comunes
 
-- `selector` del Service no coincide con labels del Deployment.
-- Readiness probe mal configurada y Pods no pasan a `Ready`.
-- Namespace incorrecto al ejecutar `kubectl`.
+- No dejar `kubectl proxy` corriendo mientras haces `curl`.
+- Olvidar `-n k8s-basics`.
 
 ## Reto
 
-Escala el Deployment a 4 replicas declarativamente y re-aplica manifiestos.
+Abre shell interactiva en el pod y prueba `curl http://localhost:8080`.
 
 ## Solución del reto
 
-Edita `01-deployment.yaml` y cambia:
-
-```yaml
-replicas: 4
-```
-
-Luego:
-
 ```bash
-kubectl apply -f labs/03-k8s-basico/trabajo/k8s/manifests/01-deployment.yaml
-kubectl -n k8s-basics get pods -l app=kubernetes-bootcamp
+kubectl -n k8s-basics exec -ti "$POD_NAME" -- bash
+curl http://localhost:8080
+exit
 ```
 
 ## Navegacion del libro
