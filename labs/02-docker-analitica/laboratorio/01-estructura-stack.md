@@ -126,6 +126,7 @@ Crea `labs/02-docker-analitica/trabajo/stack-analitica/etl/etl.py`:
 
 ```python
 import os
+import random
 from sqlalchemy import create_engine, text
 import pandas as pd
 
@@ -133,7 +134,12 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 
 def main() -> None:
     engine = create_engine(DATABASE_URL)
-    df = pd.DataFrame({"metric": ["visitas", "ventas"], "value": [100, 7]})
+    df = pd.DataFrame(
+        {
+            "metric": ["visitas", "ventas"],
+            "value": [random.randint(80, 200), random.randint(5, 30)],
+        }
+    )
     with engine.begin() as conn:
         conn.execute(text("CREATE TABLE IF NOT EXISTS metrics (metric TEXT, value INT)"))
         conn.execute(text("DELETE FROM metrics"))
@@ -161,6 +167,7 @@ CMD ["python", "-u", "etl.py"]
 
 - Separar el procesamiento batch del servicio API.
 - Asegurar que la lógica ETL puede ejecutarse de forma independiente y trazable.
+- Simular variaciones reales de negocio generando valores distintos en cada ejecución.
 
 ### 5) Crear `docker-compose.yml` del stack
 
